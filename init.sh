@@ -24,8 +24,8 @@ update(){
 check_install_package() {
     PACKAGE_NAME=$1
     if ! command -v $PACKAGE_NAME &> /dev/null; then
-        # 询问是否安装docker
-        read -p "$PACKAGE_NAME 未安装,是否需要安装$PACKAGE_NAME ？ (yes/no): " answer
+
+        read -p "$PACKAGE_NAME 未安装,是否需要安装 $PACKAGE_NAME ？ (yes/no): " answer
 
         if [[ "$answer" =~ ^[Yy][Ee][Ss]$ ]]; then  
 
