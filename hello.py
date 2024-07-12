@@ -1,25 +1,32 @@
-import json
 import subprocess
 import xmltodict
 
 def load_json(xml):
-    json = xmltodict.parse(xml)
-    return json
-
-
+    try:
+        json_data = xmltodict.parse(xml)
+        return json_data
+    except Exception as e:
+        print(f"Error parsing XML: {e}")
+        return None
 
 def execute_command(command):
-    result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
-    return result.stdout.decode('utf-8')
-
-
-def return_data(command):
     try:
-        xml_output = execute_command(command)
+        result = subprocess.run(command, shell=True, check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        return result.stdout
     except subprocess.CalledProcessError as e:
         print(f"Error executing command: {e}")
-        xml_output = ""
+        return ""
+    except Exception as e:
+        print(f"Unexpected error: {e}")
+        return ""
+
+def return_data(command):
+    xml_output = execute_command(command)
     return xml_output
+
+# AMD显卡信息
+cpu_command = 'lshw -C display -json'
+print(return_data(cpu_command))
 # 显卡信息
 # Command to fetch XML data from nvidia-smi
 # nvidia_smi_command = "nvidia-smi -x -q"
@@ -28,9 +35,6 @@ def return_data(command):
 # cpu_command = 'lscpu -J'
 # print(return_data(cpu_command))
 
-# AMD显卡信息
-cpu_command = 'lshw -C display -json'
-print(return_data(cpu_command))
 # 内存
 
 # free -h | awk 'NR==2{print "{\"total_mem\":\""$2"\", \"used_mem\":\""$3"\", \"free_mem\":\""$4"\", \"shared_mem\":\""$5"\", \"buff_cache_mem\":\""$6"\", \"available_mem\":\""$7"\"}"}'
