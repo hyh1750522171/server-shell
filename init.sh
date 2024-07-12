@@ -44,7 +44,7 @@ check_install_nvidia_driver() {
 
     # 检查是否有Nvidia显卡
     if ! lspci | grep -i nvidia &> /dev/null; then
-        echo "未检测到Nvidia显卡，无法安装驱动."
+        echo "未检测到Nvidia显卡，无法安装驱动。"
         return
     fi
 
@@ -52,6 +52,8 @@ check_install_nvidia_driver() {
     if ! command -v nvidia-smi &> /dev/null; then
         echo "未检测到安装的Nvidia显卡驱动，正在安装..."
         sudo $PACKAGE_MANAGER install -y nvidia-driver
+        if [ $? -ne 0 ]; then
+            echo "安装Nvidia显卡驱动失败，请检查网络连接或驱动兼容性。"
     else
         echo "Nvidia显卡驱动已安装."
     fi
