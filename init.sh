@@ -60,7 +60,9 @@ check_install_nvidia_driver() {
 
     # 再次检查是否成功安装Nvidia驱动
     if command -v nvidia-smi &> /dev/null; then
-        echo "Nvidia显卡驱动安装成功."
+        # echo "Nvidia显卡驱动安装成功.\033[0;31需要重启计算机以保证GPU驱动完全加载\033[0m"
+        read -p "Nvidia显卡驱动安装成功.\033[0;31需要重启计算机以保证GPU驱动完全加载\033[0m  (yes/no): " hehh
+
     else
         echo "安装失败，请重启计算机或检查系统和驱动兼容性。"
     fi
