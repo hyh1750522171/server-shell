@@ -19,6 +19,7 @@ update() {
   echo "<=====================================================================================================>"
   echo "                                               update 更新镜像源                                        "
   echo "<=====================================================================================================>"
+  sudo apt > /dev/null
   echo "正在更新系统软件包源,  请稍后...."
   sudo $PACKAGE_MANAGER update -y > /dev/null
   echo "系统软件包源更新成功....."
@@ -119,18 +120,18 @@ file_not_exists() {
     fi
 }
 
-# 如果不存在就输出hello
-if file_not_exists init.sh; then
-        # download
-        echo 'hello'
-fi
+# # 如果不存在就输出hello
+# if file_not_exists init.sh; then
+#         # download
+#         echo 'hello'
+# fi
 
 
 
 # # 更新软件包源
 update
 # # 调用函数检查并安装软件包
-check_install_package sudo
+# check_install_package sudo
 check_install_package wget
 check_install_package htop
 check_install_package neofetch
