@@ -54,17 +54,23 @@ check_install_nvidia_driver() {
         sudo $PACKAGE_MANAGER install -y nvidia-driver
         if [ $? -ne 0 ]; then
             echo "安装Nvidia显卡驱动失败，请检查网络连接或驱动兼容性。"
+        else
+            echo "Nvidia显卡驱动已安装."
+        fi
+
+        # 再次检查是否成功安装Nvidia驱动
+        if command -v nvidia-smi &> /dev/null; then
+            read -p "Nvidia显卡驱动安装成功.需要重启计算机以保证GPU驱动完全加载 (yes/no): " hehh
+            if [[ "$hehh" =~ ^[Yy][Ee][Ss]$ ]]; then
+                echo "请重启计算机以保证GPU驱动完全加载."
+            else
+                echo "请稍后手动重启计算机."
+            fi
+        else
+            echo "安装失败，请重启计算机或检查系统和驱动兼容性。"
+        fi
     else
         echo "Nvidia显卡驱动已安装."
-    fi
-
-    # 再次检查是否成功安装Nvidia驱动
-    if command -v nvidia-smi &> /dev/null; then
-        # echo "Nvidia显卡驱动安装成功.\033[0;31需要重启计算机以保证GPU驱动完全加载\033[0m"
-        read -p "Nvidia显卡驱动安装成功.\033[0;31需要重启计算机以保证GPU驱动完全加载\033[0m  (yes/no): " hehh
-
-    else
-        echo "安装失败，请重启计算机或检查系统和驱动兼容性。"
     fi
 }
 
@@ -106,4 +112,3 @@ check_install_package tree
 # 调用函数来执行检查和安装Nvidia显卡驱动
 check_install_nvidia_driver
 install_docker
-
