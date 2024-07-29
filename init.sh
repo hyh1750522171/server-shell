@@ -126,21 +126,13 @@ file_not_exists() {
 #         echo 'hello'
 # fi
 
-
-
 # # 更新软件包源
 update
 # # 调用函数检查并安装软件包
-# check_install_package sudo
-check_install_package wget
-check_install_package htop
-check_install_package neofetch
-check_install_package vim
-check_install_package python3
-check_install_package pip
-check_install_package unzip
-check_install_package git
-check_install_package tree
+declare -a packages=("wget" "htop" "neofetch" "vim" "python3" "pip" "unzip" "git" "tree")
+for package in "${packages[@]}"; do
+    check_install_package $package
+done
 # # 调用函数来执行检查和安装Nvidia显卡驱动
 check_install_nvidia_driver
 install_docker
