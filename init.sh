@@ -125,19 +125,24 @@ file_not_exists() {
 #         # download
 #         echo 'hello'
 # fi
+main() {
+    # # 更新软件包源
+    update
+    # # 调用函数检查并安装软件包
+    declare -a packages=("wget" "htop" "neofetch" "vim" "python3" "pip" "unzip" "git" "tree")
+    for package in "${packages[@]}"; do
+        check_install_package $package
+    done
+    # # 调用函数来执行检查和安装Nvidia显卡驱动
+    check_install_nvidia_driver
+    install_docker
+    # clear
+    echo "====================================================================================================="
+    echo "                                               设备详情                                              "
+    echo "====================================================================================================="
+    neofetch
+}
 
-# # 更新软件包源
-update
-# # 调用函数检查并安装软件包
-declare -a packages=("wget" "htop" "neofetch" "vim" "python3" "pip" "unzip" "git" "tree")
-for package in "${packages[@]}"; do
-    check_install_package $package
-done
-# # 调用函数来执行检查和安装Nvidia显卡驱动
-check_install_nvidia_driver
-install_docker
-# clear
-echo "====================================================================================================="
-echo "                                               设备详情                                              "
-echo "====================================================================================================="
-neofetch
+if [[ "${BASH_SOURCE[0]}" == "${0}" && -z "${NO_EXEC_MAIN}" ]]; then
+    main
+fi
