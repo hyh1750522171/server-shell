@@ -16,14 +16,20 @@ fi
 
 # 更新软件包源
 update() {
-  echo "正在更新软件包源....."
-  sudo $PACKAGE_MANAGER update -y
-  echo "软件包源更新成功....."
+  echo "<=====================================================================================================>"
+  echo "                                               update 更新镜像源                                        "
+  echo "<=====================================================================================================>"
+  echo "正在更新系统软件包源,  请稍后...."
+  sudo $PACKAGE_MANAGER update -y > /dev/null
+  echo "系统软件包源更新成功....."
 }
 
 # 检查并安装软件包函数
 check_install_package() {
     PACKAGE_NAME=$1
+    echo "<=====================================================================================================>"
+    echo "                                               $PACKAGE_NAME 安装详情                                   "
+    echo "<=====================================================================================================>"
     if ! command -v $PACKAGE_NAME &> /dev/null; then
         read -p "$PACKAGE_NAME 未安装,是否需要安装 $PACKAGE_NAME ？ (yes/no): " answer
         if [[ "$answer" =~ ^[Yy][Ee][Ss]$ ]]; then  
@@ -40,6 +46,9 @@ check_install_package() {
 
 # 检查是否已安装Nvidia驱动
 check_install_nvidia_driver() {
+    echo "<=====================================================================================================>"
+    echo "                                             Nvidia显卡驱动 安装详情                                   "
+    echo "<=====================================================================================================>"
     echo "检查是否可以安装Nvidia显卡驱动并安装或跳过..."
 
     # 检查是否有Nvidia显卡
@@ -77,6 +86,9 @@ check_install_nvidia_driver() {
 # 检查安装Docker
 install_docker(){
   PACKAGE_NAME="docker"
+  echo "<=====================================================================================================>"
+  echo "                                               $PACKAGE_NAME 安装详情                                   "
+  echo "<=====================================================================================================>"
   # 询问是否安装docker
   if ! command -v $PACKAGE_NAME &> /dev/null; then
 
@@ -96,9 +108,28 @@ install_docker(){
   fi
 }
 
-# 更新软件包源
+
+# 检查文件是否存在
+file_not_exists() {
+    FILE=$1
+    if [ -f "$FILE" ]; then
+        return 1  # 文件存在
+    else
+        return 0  # 文件不存在
+    fi
+}
+
+# 如果不存在就输出hello
+if file_not_exists init.sh; then
+        # download
+        echo 'hello'
+fi
+
+
+
+# # 更新软件包源
 update
-# 调用函数检查并安装软件包
+# # 调用函数检查并安装软件包
 check_install_package sudo
 check_install_package wget
 check_install_package htop
@@ -109,6 +140,11 @@ check_install_package pip
 check_install_package unzip
 check_install_package git
 check_install_package tree
-# 调用函数来执行检查和安装Nvidia显卡驱动
+# # 调用函数来执行检查和安装Nvidia显卡驱动
 check_install_nvidia_driver
 install_docker
+# clear
+echo "====================================================================================================="
+echo "                                               设备详情                                              "
+echo "====================================================================================================="
+neofetch
