@@ -8,12 +8,33 @@ file_not_exists() {
     fi
 }
 
+# 从API获取JSON数据
+api_url="https://ip.useragentinfo.com/json"  # 替换为实际的API URL
+json_data=$(curl -s $api_url)
+
+# 使用 grep 和 sed 提取 short_name 值
+short_name=$(echo $json_data | grep -o '"short_name": *"[^"]*"' | sed 's/.*"short_name": *"\([^"]*\)".*/\1/')
+
+# echo $country
+# 检查IP地址是否来自中国大陆
+if [ "$short_name" == "CN" ]; then
+    # echo "The IP address $ip_address is from China."
+    echo 中国大陆地区
+    git_url="https://gitee.com/muaimingjun/"
+
+else
+    # echo "The IP address $ip_address is not from China."
+    echo 非中国大陆地区
+    git_url="https://github.com/itgpt/"
+fi
+
 
 download() {
     jiagou=$1
     version=v0.3.6
-    wget https://github.com/itgpt/spectre-spr-information/releases/download/${version}/tnn-miner-linux-${jiagou}.tar.gz
-    tar -zxvf tnn-miner-linux-x86.tar.gz
+    file_name=tnn-miner-linux-${jiagou}.tar.gz
+    wget ${git_url}spectre-spr-information/releases/download/${version}/${file_name}
+    tar -zxvf $file_name
     
 }
 
@@ -26,10 +47,7 @@ downloads() {
     if [[ "$ARCH" == "x86_64" ]]; then
         # wget  http://
         echo "系统架构是 x86_64 (64位 x86)."
-        download x86
-        echo './tnn-miner*  --spectre --daemon-address   --port  5555 --wallet spectre:qxxxxxxxxxg --threads 10 --worker-name 矿工名称' > run.sh 
-        chmod +x ./run.sh
-        ./run.sh
+        return "x86_64"
     # elif [[ "$ARCH" == "i386" || "$ARCH" == "i686" ]]; then
     #     # wget  http://
     #     echo "系统架构是 x86 (32位)."
@@ -38,8 +56,10 @@ downloads() {
     #     echo "系统架构是 ARM (32位)."
     elif [[ "$ARCH" == "aarch64" ]]; then
         echo "系统架构是 ARM (64位)."
+        return "aarch64"
     else
         echo "暂不支持您的设备和系统......"
+        exit 1
     fi
   }
 
@@ -52,19 +72,4 @@ spr() {
 }
 
 # spr
-
-geo_check() {
-    api_list="https://blog.cloudflare.com/cdn-cgi/trace https://dash.cloudflare.com/cdn-cgi/trace https://cf-ns.com/cdn-cgi/trace"
-    ua="Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/81.0"
-    set -- $api_list
-    for url in $api_list; do
-        text="$(curl -A $ua -m 10 -s $url)"
-        if echo $text | grep -qw 'CN'; then
-            isCN=true
-            break
-        fi
-    done
-}
-geo_check
-echo $isCN
 

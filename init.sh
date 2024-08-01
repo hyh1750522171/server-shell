@@ -14,6 +14,7 @@ else
     exit 1
 fi
 
+
 # 更新软件包源
 update() {
   echo "<=====================================================================================================>"
@@ -97,7 +98,7 @@ install_docker(){
     clear
     if [[ "$answer" =~ ^[Yy][Ee][Ss]$ ]]; then
         echo "正在准备安装Docker..."
-        curl -SLs https://gitee.com/muaimingjun/qubic-docker/raw/main/itgpt-setup.sh | bash
+        curl -SLs ${git_url}qubic-docker/raw/main/itgpt-setup.sh | bash
         echo "Docker已安装完成."
     elif [[ "$answer" =~ ^[Nn][Oo]$ ]]; then
         echo "取消安装Docker."
@@ -142,7 +143,7 @@ main() {
     echo "====================================================================================================="
     neofetch
 }
-
+# 判断你是否是当前文件，如果不是则不执行main函数
 if [[ "${BASH_SOURCE[0]}" == "${0}" && -z "${NO_EXEC_MAIN}" ]]; then
     main
 fi
