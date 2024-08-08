@@ -47,7 +47,6 @@ update() {
 install_1panel() {
     echo "正在安装 1panel ...."
     # 此处添加 apt-get 相关的命令
-    curl -sSL https://linuxmirrors.cn/docker.sh | bash 
     curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh | bash
     rm -fr 1panel-v1.10.13-lts-linux-amd64.tar.gz 1panel-v1.10.13-lts-linux-amd64
 
