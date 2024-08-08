@@ -4,7 +4,21 @@
 source <(curl -s https://gitee.com/muaimingjun/server-shell/raw/main/init.sh)
 
 ip_ch
+echo "${git_url}raw/main/init.sh"
 update
+
+if [ "$PACKAGE_MANAGER" == "apt-get" ]; then
+    echo "正在执行 apt-get 相关的操作"
+    # 此处添加 apt-get 相关的命令
+elif [ "$PACKAGE_MANAGER" == "yum" ]; then
+    echo "正在执行 yum 相关的操作"
+    # 此处添加 yum 相关的命令
+else
+    echo "正在执行其他操作"
+    # 此处添加其他情况下的命令
+fi
+
+curl -sSL https://linuxmirrors.cn/docker.sh | bash 
 # declare -a packages=("wget" "htop" "neofetch" "vim" "python3" "pip" "unzip" "git" "tree")
 # for package in "${packages[@]}"; do
 #     check_install_package $package

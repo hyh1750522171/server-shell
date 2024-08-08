@@ -1,5 +1,22 @@
 #!/bin/bash
 
+
+PLAIN='\033[0m'
+ERROR="[\033[1;31m错误${PLAIN}]"
+## 报错退出
+function output_error() {
+    [ "$1" ] && echo -e "\n$ERROR $1\n"
+    exit 1
+}
+
+## 权限判定
+function permission_judgment() {
+    if [ $UID -ne 0 ]; then
+        output_error "权限不足，请使用 Root 用户运行本脚本"
+    fi
+}
+permission_judgment
+
 # 判断操作系统是否是Ubuntu或CentOS并安装指定软件包
 
 # 检测操作系统和包管理器
@@ -13,6 +30,7 @@ else
     echo "不支持的操作系统."
     exit 1
 fi
+
 
 
 # 更新软件包源
@@ -143,10 +161,6 @@ main() {
     echo "====================================================================================================="
     neofetch
 }
-# 判断你是否是当前文件，如果不是则不执行main函数
-if [[ "${BASH_SOURCE[0]}" == "${0}" && -z "${NO_EXEC_MAIN}" ]]; then
-    main
-fi
 
 ip_ch(){
   # 从API获取JSON数据
@@ -169,3 +183,9 @@ ip_ch(){
       git_url="https://github.com/itgpt/"
   fi
 }
+
+# 判断你是否是当前文件，如果不是则不执行main函数
+if [[ "${BASH_SOURCE[0]}" == "${0}" && -z "${NO_EXEC_MAIN}" ]]; then
+    main
+fi
+
