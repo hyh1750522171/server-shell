@@ -3,6 +3,7 @@
 # 从网络获取脚本
 source <(curl -s https://gitee.com/muaimingjun/server-shell/raw/main/init.sh)
 
+ip_ch
 update
 # declare -a packages=("wget" "htop" "neofetch" "vim" "python3" "pip" "unzip" "git" "tree")
 # for package in "${packages[@]}"; do

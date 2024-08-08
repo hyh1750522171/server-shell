@@ -8,26 +8,6 @@ file_not_exists() {
     fi
 }
 
-# 从API获取JSON数据
-api_url="https://ip.useragentinfo.com/json"  # 替换为实际的API URL
-json_data=$(curl -s $api_url)
-
-# 使用 grep 和 sed 提取 short_name 值
-short_name=$(echo $json_data | grep -o '"short_name": *"[^"]*"' | sed 's/.*"short_name": *"\([^"]*\)".*/\1/')
-
-# echo $country
-# 检查IP地址是否来自中国大陆
-if [ "$short_name" == "CN" ]; then
-    # echo "The IP address $ip_address is from China."
-    echo 中国大陆地区
-    git_url="https://gitee.com/muaimingjun/"
-
-else
-    # echo "The IP address $ip_address is not from China."
-    echo 非中国大陆地区
-    git_url="https://github.com/itgpt/"
-fi
-
 
 download() {
     jiagou=$1
