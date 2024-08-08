@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # 从网络获取脚本
-source <(curl -s https://gitee.com/muaimingjun/server-shell/raw/main/init.sh)
+source <(curl -s https://gitee.com/muaimingjun/server-shell/raw/main/package/init.sh)
 
 ip_ch
 echo "${git_url}raw/main/init.sh"
