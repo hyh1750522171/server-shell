@@ -43,6 +43,16 @@ update() {
   echo "系统软件包源更新成功....."
 }
 
+# 安装1panel
+install_1panel() {
+    echo "正在安装 1panel ...."
+    # 此处添加 apt-get 相关的命令
+    curl -sSL https://linuxmirrors.cn/docker.sh | bash 
+    curl -sSL https://resource.fit2cloud.com/1panel/package/quick_start.sh | bash
+    rm -fr 1panel-v1.10.13-lts-linux-amd64.tar.gz 1panel-v1.10.13-lts-linux-amd64
+
+}
+
 # 检查并安装软件包函数
 check_install_package() {
     PACKAGE_NAME=$1
